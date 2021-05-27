@@ -1,0 +1,10 @@
+;; WARNING
+;; This file is listed in .gitignore and will be excluded from version control by Git.
+
+{:dev true
+ :port 3000
+ :nrepl-port 7000
+
+ :viacep-url "https://viacep.com.br"
+ ;; :database-url (System/getenv "DATABASE_URL")
+ :database-url   "postgres://localhost:5433/bancos_api?user=root&password=postgres"}

@@ -1,0 +1,1 @@
+web: java -Dclojure.main.report=stderr -cp target/uberjar/banco-clj.jar clojure.main -m banco-clj.core

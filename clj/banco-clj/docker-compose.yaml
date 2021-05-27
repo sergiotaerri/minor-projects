@@ -1,0 +1,51 @@
+version: '3'
+networks:
+  internal:
+
+services:
+  banco-clj-dev: &app
+    image: clojure:lein-2.9.5
+    working_dir: "/app"
+    ports:
+      - 3003:3000
+      - 7000:7000
+    volumes:
+      - ./:/app
+    environment:
+      - DATABASE_URL="postgres://banco-clj-db-dev:5432/bancos_api?user=root&password=postgres"
+      - TEST_DATABASE_URL="postgres://banco-clj-db-dev:5432/bancos_api?user=root&password=postgres"
+    networks:
+      - internal
+    command: 'lein update-in :dependencies conj \[nrepl/nrepl\ \"0.8.3\"\] -- update-in :plugins conj \[refactor-nrepl\ \"2.5.1\"\] -- update-in :plugins conj \[cider/cider-nrepl\ \"0.25.9\"\] -- repl :headless :host localhost'
+  banco-clj-hml:
+    build:
+      context: .
+    ports:
+      - 3033:3000
+    environment:
+      - DATABASE_URL="postgres://banco-clj-db-dev:5432/bancos_api?user=root&password=postgres"
+      - TEST_DATABASE_URL="postgres://banco-clj-db-dev:5432/bancos_api?user=root&password=postgres"
+    networks:
+      - internal
+  banco-clj-db-dev: &db
+    build:
+      context: ./
+      dockerfile:
+        ./Dockerfile.pg
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_DB: bancos_api
+      POSTGRES_USER: root    
+      POSTGRES_PASSWORD: postgres    
+    networks:
+      - internal
+  banco-clj-db-test:
+    <<: *db
+    ports:
+      - 5434:5432
+  banco-clj-hml:
+    <<: *app
+    command: lein run
+

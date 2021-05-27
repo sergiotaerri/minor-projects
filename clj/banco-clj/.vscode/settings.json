@@ -1,0 +1,35 @@
+{
+        "calva.customREPLCommandSnippets": [
+        {
+            "name": "Start banco-clj Server",
+            "ns": "user",
+            "repl": "clj",
+            "snippet": "(start)"
+        },
+        {
+            "name": "Stop banco-clj Server",
+            "ns": "user",
+            "repl": "clj",
+            "snippet": "(stop)"
+        },
+        {
+            "name": "Restart banco-clj Server",
+            "ns": "user",
+            "repl": "clj",
+            "snippet": "(restart)"
+        }
+    ],
+    "calva.replConnectSequences": [
+                {
+            "name": "Server only - banco-clj",
+            "projectType": "Leiningen",
+            "afterCLJReplJackInCode": "(in-ns 'user) (start)",
+            "cljsType": "none",
+            "menuSelections": {
+                "leinProfiles": [
+                    "dev"
+                ]
+            }
+        }
+    ]
+}
